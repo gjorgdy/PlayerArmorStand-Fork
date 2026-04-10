@@ -1,4 +1,2 @@
- - Fixed Fabric classTweaker crushes
- - Fixed missing translations
- - Fixed 12 hours auto reload time
- - now for fabric required loader >= 0.18.0
+ - Fixed commands autocomplete
+ - Optimisation

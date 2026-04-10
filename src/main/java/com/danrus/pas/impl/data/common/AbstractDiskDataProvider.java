@@ -24,7 +24,7 @@ public abstract class AbstractDiskDataProvider<T extends DataHolder> implements 
     public static final FilesAges AGES = new FilesAges(CACHE_PATH.resolve("files_ages.json"));
 
     protected final Path cachePath;
-    protected final HashMap<DataStoreKey, ResourceLocation> cache = new HashMap<>();
+    protected final HashMap<DataStoreKey, T> cache = new HashMap<>();
 
     public AbstractDiskDataProvider() {
         this.cachePath = CACHE_PATH;
@@ -35,10 +35,6 @@ public abstract class AbstractDiskDataProvider<T extends DataHolder> implements 
 
     @Override
     public T get(NameInfo info) {
-        if (getDataManager().findData(info) != null && getDataManager().findData(info).getStatus() == DownloadStatus.IMPOSSIBLE_TO_DOWNLOAD) {
-            return null;
-        }
-
         String fileName = InfoTranslators.getInstance()
                 .toFileName(getDataHolderClass(), info) + ".png";
         Path filePath = cachePath.resolve(fileName);
@@ -55,20 +51,26 @@ public abstract class AbstractDiskDataProvider<T extends DataHolder> implements 
 
         ResourceLocation texture = InfoTranslators.getInstance().toResourceLocation(getDataHolderClass(), info);
 
-        TextureUtils.registerTexture(filePath, texture, shouldProcessSkin());
-        cache.put(getCacheKey(info), texture);
-
         T data = createDataHolder(info);
+
+        TextureUtils.registerTexture(filePath, texture, shouldProcessSkin());
+
         data.setTexture(texture);
         data.setStatus(DownloadStatus.COMPLETED);
+
+        cache.put(getCacheKey(info), data);
 
         getDataManager().store(info, data);
         return data;
     }
 
     @Override
-    public T get(DataStoreKey key) {
-        return null;
+    public T find(NameInfo info) {
+        T data = cache.get(getCacheKey(info));
+        if (data == null) {
+            return get(info);
+        };
+        return data;
     }
 
     @Override
@@ -97,7 +99,7 @@ public abstract class AbstractDiskDataProvider<T extends DataHolder> implements 
 
     @Override
     public HashMap<DataStoreKey, T> getAll() {
-        return new HashMap<>();
+        return cache;
     }
 
     @Override

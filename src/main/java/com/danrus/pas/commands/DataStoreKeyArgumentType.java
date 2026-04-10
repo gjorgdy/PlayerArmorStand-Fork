@@ -22,7 +22,7 @@ public abstract class DataStoreKeyArgumentType<T extends DataHolder> implements 
     }
 
     public static DataStoreKeyArgumentType<SkinData> forSkin() {
-        return new DataStoreKeyArgumentType<SkinData>() {
+        return new DataStoreKeyArgumentType<>() {
             @Override
             DataRepository<SkinData> getDataRepository() {
                 return PasManager.getInstance().getSkinDataManager();
@@ -31,7 +31,7 @@ public abstract class DataStoreKeyArgumentType<T extends DataHolder> implements 
     }
 
     public static DataStoreKeyArgumentType<CapeData> forCape() {
-        return new DataStoreKeyArgumentType<CapeData>() {
+        return new DataStoreKeyArgumentType<>() {
             @Override
             DataRepository<CapeData> getDataRepository() {
                 return PasManager.getInstance().getCapeDataManager();
@@ -41,8 +41,8 @@ public abstract class DataStoreKeyArgumentType<T extends DataHolder> implements 
 
     @Override
     public DataStoreKey parse(StringReader reader) throws CommandSyntaxException {
-        DataStoreKey prototype = DataStoreKey.parsePrototype(reader.readUnquotedString());
-        for (DataStoreKey key : getDataRepository().getGameData().keySet()) {
+        DataStoreKey prototype = DataStoreKey.parsePrototype(reader.readString());
+        for (DataStoreKey key : getDataRepository().keySet()) {
             if (key.equals(prototype)) {
                 return key;
             }
@@ -52,7 +52,7 @@ public abstract class DataStoreKeyArgumentType<T extends DataHolder> implements 
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        for (DataStoreKey key : getDataRepository().getGameData().keySet()) {
+        for (DataStoreKey key : getDataRepository().keySet()) {
             builder.suggest(key.asString());
         }
         return builder.buildFuture();

@@ -4,11 +4,16 @@ import com.danrus.pas.api.info.NameInfo;
 import com.danrus.pas.api.info.RenameFeature;
 import com.danrus.pas.api.reg.FeatureRegistry;
 
+import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.regex.Pattern;
 
 public class NIParser {
 
+    private final Map<String, NameInfo> cached = new WeakHashMap<>();
+
     public NameInfo parse(String input) {
+        if (cached.containsKey(input)) return cached.get(input);
         if (input == null || input.isEmpty()) return new NameInfo();
 
         String[] divided = input.split("\\|", 2);
@@ -32,6 +37,7 @@ public class NIParser {
             info.legacyParams = normalizeParams(params);
         }
 
+        cached.put(input, info);
         return info;
     }
 

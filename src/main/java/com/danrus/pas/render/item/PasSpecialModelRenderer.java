@@ -54,8 +54,9 @@ public abstract class PasSpecialModelRenderer implements SpecialModelRenderer<It
             renderPart(poseStack, part, RenderType.entityCutout(WOOD), context, packedLight, packedOverlay);
         }
         boolean showDefaultSkin = currentInfo.isEmpty() || PlayerArmorStandModel.showArmorStandWhileDownload(argument.dataHolder());
+        ResourceLocation location = showDefaultSkin ? STEVE : PasManager.getInstance().getSkinWithOverlayTexture(currentInfo);
         for (ModelPart part : this.model.getPlayerParts()) {
-            renderPart(poseStack, part, RenderType.entityTranslucent(showDefaultSkin ? STEVE : PasManager.getInstance().getSkinWithOverlayTexture(currentInfo)), context, packedLight, packedOverlay);
+            renderPart(poseStack, part, RenderType.entityTranslucent(location), context, packedLight, packedOverlay);
         }
 
         if (hasFoilType) {

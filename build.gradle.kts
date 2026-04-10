@@ -1,8 +1,8 @@
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.modstitch
 
 plugins {
     id("dev.isxander.modstitch.base")
-    id("dev.isxander.modstitch.publishing")
     id("me.modmuss50.mod-publish-plugin")
 }
 
@@ -222,7 +222,6 @@ dependencies {
 }
 
 publishMods {
-    val defaultReleaseType = BETA
     val modrinthToken = findProperty("modrinth-token")
     val curseforgeToken = findProperty("curseforge-token")
     val discordWebhookDR = findProperty("discord-webhook")
@@ -230,24 +229,15 @@ publishMods {
     val discordWebhookDry = findProperty("discord-webhook-dry")
 
     dryRun = gitBranchName != "main"
-//    dryRun = false
 
     file = modstitch.finalJarTask.flatMap { it.archiveFile }
 
     changelog = rootProject.file("CHANGELOG.md").readText()
-    if (findProperty("meta.release_type") != null) {
-        var rType = findProperty("meta.release_type").toString()
-        if (rType == "alpha") {
-            type = ALPHA
-        } else {
-            type = defaultReleaseType
-        }
-    } else {
-        type = defaultReleaseType
-    }
+    type = BETA
 
     val loaders = property("pub.target.platforms").toString().split(' ')
     loaders.forEach(modLoaders::add)
+//    modLoaders = loaders
     displayName = "Player Armor Stands ${property("mod.version")} for ${loader} ${minecraft}"
     version = "${property("mod.version")}-${loaderInitials}-${minecraft}"
 

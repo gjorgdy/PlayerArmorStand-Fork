@@ -61,11 +61,12 @@ public class NameInfo {
     }
 
     public static NameInfo parse(String input) {
+        String lower = input.toLowerCase();
+
         if (PasConfig.getInstance().isShowEasterEggs()) {
-            for (Map.Entry<String, ResourceLocation> meme : MEMES.entrySet()) {
-                if (input.toLowerCase().contains(meme.getKey().toLowerCase())) {
-                    return new NameInfo().setLolMeme(meme.getValue());
-                }
+            ResourceLocation meme = MEMES.get(lower);
+            if (meme != null) {
+                return new NameInfo().setLolMeme(meme);
             }
         }
         return NIParser.getInstance().parse(input);

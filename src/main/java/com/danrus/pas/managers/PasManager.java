@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PasManager {
@@ -47,10 +48,12 @@ public class PasManager {
     }
 
     public ResourceLocation getSkinWithOverlayTexture(NameInfo info) {
+        if (info.isEmpty()) return SkinData.DEFAULT_TEXTURE;
         return TextureUtils.getOverlayedTexture(info, SkinData.class);
     }
 
     public ResourceLocation getCapeWithOverlayTexture(NameInfo info) {
+        if (info.isEmpty()) return CapeData.DEFAULT_TEXTURE;
         return TextureUtils.getOverlayedTexture(info, CapeData.class);
     }
 

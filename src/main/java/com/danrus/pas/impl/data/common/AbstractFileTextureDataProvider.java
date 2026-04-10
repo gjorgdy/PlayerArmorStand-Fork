@@ -53,8 +53,12 @@ public abstract class AbstractFileTextureDataProvider<T extends DataHolder> impl
     }
 
     @Override
-    public T get(DataStoreKey key) {
-        return cache.get(key);
+    public T find(NameInfo info) {
+        T data = cache.get(getKey(info));
+        if (data == null) {
+            return get(info);
+        }
+        return data;
     }
 
     private boolean isValidName(String name) {

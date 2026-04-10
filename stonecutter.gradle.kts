@@ -8,7 +8,7 @@ plugins {
     id("fabric-loom") version "1.13-SNAPSHOT" apply false
     id("net.neoforged.moddev") version "2.0.120" apply false
 
-    id("me.modmuss50.mod-publish-plugin") version "1.1.0" apply false
+    id("me.modmuss50.mod-publish-plugin") version "0.8.4" apply false
 }
 stonecutter active "1.21.4-fabric"
 

@@ -1,9 +1,9 @@
 package com.danrus.pas.api.data;
 
 import com.danrus.pas.api.info.NameInfo;
-import com.danrus.pas.impl.data.skin.CacheSkinData;
 
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * DataManager interface for managing data sources and retrieving SkinData.
@@ -53,7 +53,6 @@ public interface DataRepository<T extends DataHolder> {
      * @param info the identifier for the data to invalidate
      */
     void invalidateData(NameInfo info);
-    void invalidateData(DataStoreKey key);
 
     /**
      * Retrieves a specific data source by its key.
@@ -78,8 +77,6 @@ public interface DataRepository<T extends DataHolder> {
      * @return a HashMap containing all game data, where the key is the player name and the value is SkinData
      */
 
-    HashMap<DataStoreKey, T> getGameData();
-
     /**
      * Finds SkinData by a given string without download.
      *
@@ -88,7 +85,6 @@ public interface DataRepository<T extends DataHolder> {
      */
 
     T findData(NameInfo info);
-    T findData(DataStoreKey key);
 
 
     /**
@@ -98,5 +94,6 @@ public interface DataRepository<T extends DataHolder> {
      */
 
     void delete(NameInfo info);
-    void delete(DataStoreKey key);
+
+    Set<DataStoreKey> keySet();
 }

@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public interface DataProvider<T extends DataHolder> {
     T get(NameInfo info);
-    T get(DataStoreKey key);
+    T find(NameInfo info);
     boolean delete(NameInfo info);
     boolean delete(DataStoreKey key);
     HashMap <DataStoreKey, T> getAll();

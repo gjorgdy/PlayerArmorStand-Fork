@@ -152,7 +152,8 @@ public class MojangProvider implements TextureProvider {
                 SkinData.class,
                 SkinData::new,
                 PasManager.getInstance().getSkinDataManager(),
-                "processSkinTexture"
+                "processSkinTexture",
+                true
         );
     }
 
@@ -164,7 +165,8 @@ public class MojangProvider implements TextureProvider {
                 CapeData.class,
                 CapeData::new,
                 PasManager.getInstance().getCapeDataManager(),
-                "processCapeTexture"
+                "processCapeTexture",
+                false
         );
     }
 
@@ -175,7 +177,8 @@ public class MojangProvider implements TextureProvider {
             Class<T> dataClass,
             Supplier<T> dataFactory,
             DataRepository<T> repository,
-            String name
+            String name,
+            boolean remap
     ) {
         if (cancelPredicate.get()) {
             return CompletableFuture.completedFuture(null);
@@ -194,7 +197,7 @@ public class MojangProvider implements TextureProvider {
                 .toFileName(dataClass, info);
         Path filePath = AbstractDiskDataProvider.CACHE_PATH.resolve(fileName + ".png");
 
-        return SkinDownloader.downloadAndRegister(capeLocation, filePath, texture.url, false)
+        return SkinDownloader.downloadAndRegister(capeLocation, filePath, texture.url, remap)
                 .thenAccept(textureId -> {
                     T data = dataFactory.get();
                     data.setTexture(textureId);
