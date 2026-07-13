@@ -212,7 +212,7 @@ public class TextureUtils {
 
     public static ResourceLocation getOverlayTexture(NameInfo info, String overlay, Class<? extends DataHolder> type, int blendStrength) {
         ResourceLocation location = InfoTranslators.getInstance().toResourceLocation(type, info);
-        String cacheKey = location.getPath() + "_" + overlay + "_" + blendStrength;
+        String cacheKey = location.getPath();
         if (notExistingOverlays.contains(overlay)) {
             switch (type.getSimpleName()) {
                 case "CapeData" -> {
@@ -235,6 +235,7 @@ public class TextureUtils {
             case "SkinData" -> skinId = PasManager.getInstance().getSkinTexture(info);
             default -> throw new IllegalArgumentException("Unsupported holder type for overlayed texture: " + type);
         }
+        System.out.println(skinId.getPath());
         AbstractTexture skinTexture = Minecraft.getInstance().getTextureManager().getTexture(skinId);
 
         ResourceLocation overlayId = Rl.vanilla("textures/block/" + overlay + ".png");
@@ -252,6 +253,7 @@ public class TextureUtils {
                 NativeImage overlayImage = overlayResourceTexture.loadContents(Minecraft.getInstance().getResourceManager()).image();
                 NativeImage finalImage = grayscaleSkinOverMaterial(skinImage, overlayImage, (float) blendStrength / 100f);
                 registerTexture(finalImage, location, "SkinData".equals(type.getSimpleName()));
+                System.out.println("Overlay texture created for: " + cacheKey + " at: " + location);
                 overlayTextureCache.put(cacheKey, location);
 
                 return location;

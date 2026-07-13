@@ -22,7 +22,7 @@ public abstract class AbstractSimpleTranslator implements InfoTranslator {
 
             boolean result = getLiteral().equals(provider);
 
-            PlayerArmorStandsClient.LOGGER.info("isApplicable: {} - provider='{}' literal='{}' = {}",
+            PlayerArmorStandsClient.LOGGER.debug("isApplicable: {} - provider='{}' literal='{}' = {}",
                     this.getClass().getSimpleName(), provider, getLiteral(), result);
 
             return result;
@@ -36,14 +36,18 @@ public abstract class AbstractSimpleTranslator implements InfoTranslator {
 
     @Override
     public ResourceLocation toResourceLocation(NameInfo info) {
-        return Rl.pas(getPrefix() + "/" + (shouldEncode() ? EncodeUtils.encodeToSha256(getName(info)) : getName(info)));
+        return Rl.pas(getPrefix() + "/" + toName(info));
     }
 
     @Override
     public String toFileName(NameInfo info) {
-        String name = shouldEncode() ? EncodeUtils.encodeToSha256(getName(info)) : getName(info);
+        String name = EncodeUtils.encodeToSha256(getName(info));
         String suffix = getSuffix().isEmpty() ? "" : "_" + getSuffix();
         return name + suffix;
+    }
+
+    public String toName(NameInfo info) {
+        return EncodeUtils.encodeToSha256(getName(info)) + "_" + info.compile().replaceAll("[^a-z0-9/._-]", "");
     }
 
     protected abstract String getLiteral();

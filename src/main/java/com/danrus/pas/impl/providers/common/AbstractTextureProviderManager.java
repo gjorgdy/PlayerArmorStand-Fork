@@ -100,7 +100,7 @@ public abstract class AbstractTextureProviderManager<T extends DataHolder> imple
 
         for (PrioritizedProvider prioritized : providerList) {
             try {
-                LOGGER.info("Trying to download from {}", prioritized.provider.getClass().getSimpleName());
+                LOGGER.debug("Trying to download from {}", prioritized.provider.getClass().getSimpleName());
                 pendingList.add(getOutputString(info));
                 prioritized.provider().load(info, pendingList::remove);
                 return true;

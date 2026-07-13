@@ -67,7 +67,6 @@ public class PasConfiguratorScreen extends Screen {
 
     public final TabButton skinTabButton;
     public final TabButton capeTabButton;
-    public final TabButton overlayTabButton;
 
     private final Button acceptButton;
     private final Button cancelButton;
@@ -101,7 +100,7 @@ public class PasConfiguratorScreen extends Screen {
 
         skinTabButton = new TabButton(5, 5, 80, 15, Component.translatable("pas.menu.tab.skin"));
         capeTabButton = new TabButton(105, 5, 80, 15, Component.translatable("pas.menu.tab.cape"));
-        overlayTabButton = new TabButton(205, 5, 80, 15, Component.translatable("pas.menu.tab.overlay"));
+//        overlayTabButton = new TabButton(205, 5, 80, 15, Component.translatable("pas.menu.tab.overlay"));
 
         skinProviderButton = new ButtonWithIcon(0, 0, 120, 20,
                 MOJANG_LOGO, Component.translatable("pas.menu.tab.skin.provider." + info.getDesiredProvider().toLowerCase()),
@@ -273,63 +272,63 @@ public class PasConfiguratorScreen extends Screen {
 
         // --- Misc Tab ---
 
-        TextWidget blockTextureNameLabel = new TextWidget(0, 0, 100, 20, Component.translatable("pas.menu.tab.overlay.name")).setTooltip(Component.translatable("pas.menu.tab.overlay.name.tooltip"));
-        EnterEditBox blockTextureNameBox = new EnterEditBox(Minecraft.getInstance().font, 0, 0, 100, 20, Component.literal("Overlay Name"), editBox -> {
-            info.setOverlay(editBox.getValue());
-            info.setBlend(Math.max(0, Math.min(100, info.blend()))); // Ensure blend is between 0 and 100
-            setEntityName(info.compile());
-        });
-        PasSliderButtonImpl overlayBlendSlider = new PasSliderButtonImpl(0, 0, 120, 20, Component.literal(info.blend() + "%"), info.blend(), (i) -> info.setBlend(i));
-        ImageButton acceptOverlayNameButton = new ImageButton(0, 0, 20, 20,
-                new WidgetSprites(
-                        Rl.pas("accept"),
-                        Rl.pas("accept_disabled"),
-                        Rl.pas("accept_highlighted")
-                ),
-                button -> {
-                    info.setOverlay(blockTextureNameBox.getValue());
-                    info.setBlend(Math.max(0, Math.min(100, info.blend()))); // Ensure blend is between 0 and 100
-                    setEntityName(info.compile());
-                }
-        );
-        TextWidget displayNameLabel = new TextWidget(0, 0, 100, 20, Component.translatable("pas.menu.tab.overlay.display_name")).setTooltip(Component.translatable("pas.menu.tab.overlay.display_name.tooltip"));
-        EnterEditBox displayNameBox = new EnterEditBox(Minecraft.getInstance().font, 0, 0, 120, 20, Component.literal("Display Name"), editBox -> {
-            DisplayNameFeature feature = info.getFeature(DisplayNameFeature.class);
-            if (feature != null) {
-                feature.setEnabled(!editBox.getValue().isEmpty());
-                feature.setName(editBox.getValue());
-                setEntityName(info.compile());
-            }
-        });
-        blockTextureNameBox.setValue(info.overlay());
-        DisplayNameFeature displayNameFeature = info.getFeature(DisplayNameFeature.class);
-        if (displayNameFeature != null && displayNameFeature.isEnabled()) {
-            displayNameBox.setValue(displayNameFeature.getName());
-        }
-        TextWidget blockTextureBlendLabel = new TextWidget(0, 0, 100, 20, Component.translatable("pas.menu.tab.overlay.blend"));
-
-        Tab overlayTab = new Tab("overlay", (width, height) -> {
-            blockTextureNameLabel.setPosition(Math.round(width / 2f + 2), Math.round(height / 2f - 87));
-            blockTextureNameBox.setPosition(Math.round(width / 2f - 8), Math.round(height / 2f - 70));
-            acceptOverlayNameButton.setPosition(Math.round(width / 2f + 92), Math.round(height / 2f - 70));
-            blockTextureBlendLabel.setPosition(Math.round(width / 2f + 2), Math.round(height / 2f - 50));
-            overlayBlendSlider.setPosition(Math.round(width / 2f - 8), Math.round(height / 2f - 30));
-            displayNameLabel.setPosition(Math.round(width / 2f + 2), Math.round(height / 2f - 10));
-            displayNameBox.setPosition(Math.round(width / 2f - 8), Math.round(height / 2f + 10));
-        });
-
-        overlayTab.addWidget(blockTextureNameLabel);
-        overlayTab.addWidget(blockTextureNameBox);
-        overlayTab.addWidget(acceptOverlayNameButton);
-        overlayTab.addWidget(blockTextureBlendLabel);
-        overlayTab.addWidget(overlayBlendSlider);
-        overlayTab.addWidget(displayNameLabel);
-        overlayTab.addWidget(displayNameBox);
+//        TextWidget blockTextureNameLabel = new TextWidget(0, 0, 100, 20, Component.translatable("pas.menu.tab.overlay.name")).setTooltip(Component.translatable("pas.menu.tab.overlay.name.tooltip"));
+//        EnterEditBox blockTextureNameBox = new EnterEditBox(Minecraft.getInstance().font, 0, 0, 100, 20, Component.literal("Overlay Name"), editBox -> {
+//            info.setOverlay(editBox.getValue());
+//            info.setBlend(Math.max(0, Math.min(100, info.blend()))); // Ensure blend is between 0 and 100
+//            setEntityName(info.compile());
+//        });
+//        PasSliderButtonImpl overlayBlendSlider = new PasSliderButtonImpl(0, 0, 120, 20, Component.literal(info.blend() + "%"), info.blend(), (i) -> info.setBlend(i));
+//        ImageButton acceptOverlayNameButton = new ImageButton(0, 0, 20, 20,
+//                new WidgetSprites(
+//                        Rl.pas("accept"),
+//                        Rl.pas("accept_disabled"),
+//                        Rl.pas("accept_highlighted")
+//                ),
+//                button -> {
+//                    info.setOverlay(blockTextureNameBox.getValue());
+//                    info.setBlend(Math.max(0, Math.min(100, info.blend()))); // Ensure blend is between 0 and 100
+//                    setEntityName(info.compile());
+//                }
+//        );
+//        TextWidget displayNameLabel = new TextWidget(0, 0, 100, 20, Component.translatable("pas.menu.tab.overlay.display_name")).setTooltip(Component.translatable("pas.menu.tab.overlay.display_name.tooltip"));
+//        EnterEditBox displayNameBox = new EnterEditBox(Minecraft.getInstance().font, 0, 0, 120, 20, Component.literal("Display Name"), editBox -> {
+//            DisplayNameFeature feature = info.getFeature(DisplayNameFeature.class);
+//            if (feature != null) {
+//                feature.setEnabled(!editBox.getValue().isEmpty());
+//                feature.setName(editBox.getValue());
+//                setEntityName(info.compile());
+//            }
+//        });
+//        blockTextureNameBox.setValue(info.overlay());
+//        DisplayNameFeature displayNameFeature = info.getFeature(DisplayNameFeature.class);
+//        if (displayNameFeature != null && displayNameFeature.isEnabled()) {
+//            displayNameBox.setValue(displayNameFeature.getName());
+//        }
+//        TextWidget blockTextureBlendLabel = new TextWidget(0, 0, 100, 20, Component.translatable("pas.menu.tab.overlay.blend"));
+//
+//        Tab overlayTab = new Tab("overlay", (width, height) -> {
+//            blockTextureNameLabel.setPosition(Math.round(width / 2f + 2), Math.round(height / 2f - 87));
+//            blockTextureNameBox.setPosition(Math.round(width / 2f - 8), Math.round(height / 2f - 70));
+//            acceptOverlayNameButton.setPosition(Math.round(width / 2f + 92), Math.round(height / 2f - 70));
+//            blockTextureBlendLabel.setPosition(Math.round(width / 2f + 2), Math.round(height / 2f - 50));
+//            overlayBlendSlider.setPosition(Math.round(width / 2f - 8), Math.round(height / 2f - 30));
+//            displayNameLabel.setPosition(Math.round(width / 2f + 2), Math.round(height / 2f - 10));
+//            displayNameBox.setPosition(Math.round(width / 2f - 8), Math.round(height / 2f + 10));
+//        });
+//
+//        overlayTab.addWidget(blockTextureNameLabel);
+//        overlayTab.addWidget(blockTextureNameBox);
+//        overlayTab.addWidget(acceptOverlayNameButton);
+//        overlayTab.addWidget(blockTextureBlendLabel);
+//        overlayTab.addWidget(overlayBlendSlider);
+//        overlayTab.addWidget(displayNameLabel);
+//        overlayTab.addWidget(displayNameBox);
 
 
         tabManager.addTab(skinTabButton, skinTab);
         tabManager.addTab(capeTabButton, capeTab);
-        tabManager.addTab(overlayTabButton, overlayTab);
+//        tabManager.addTab(overlayTabButton, overlayTab);
     }
 
     @Override
@@ -344,14 +343,14 @@ public class PasConfiguratorScreen extends Screen {
     private void repositionElements(int width, int height) {
         this.addRenderableWidget(skinTabButton);
         this.addRenderableWidget(capeTabButton);
-        this.addRenderableWidget(overlayTabButton);
+//        this.addRenderableWidget(overlayTabButton);
 
         this.acceptButton.setPosition(width/2 + 10, height/2 + 120);
         this.cancelButton.setPosition(width/2 - 110, height/2 + 120);
 
         this.skinTabButton.setPosition(width/2 - 124, height/2 - 109);
         this.capeTabButton.setPosition(width/2 - 43, height/2 - 109);
-        this.overlayTabButton.setPosition(width/2 + 38, height/2 - 109);
+//        this.overlayTabButton.setPosition(width/2 + 38, height/2 - 109);
         tabManager.reposition(width, height);
     }
 
