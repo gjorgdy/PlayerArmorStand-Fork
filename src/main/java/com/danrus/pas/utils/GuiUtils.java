@@ -14,7 +14,7 @@ public class GuiUtils {
     public static final int BUTTON_HEIGHT = 20;
     public static final int BUTTON_WIDTH = 150;
 
-
+    //~ screen_render
     public static Button.Builder getStandardButtonBuilder(Supplier<PasConfiguratorScreen> screenFactory) {
         return getStandardButtonBuilder(
                 button -> {

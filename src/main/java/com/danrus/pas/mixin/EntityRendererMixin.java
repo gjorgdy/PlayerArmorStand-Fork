@@ -10,7 +10,9 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+//? if < 1.21.10 {
 import net.minecraft.client.renderer.MultiBufferSource;
+//?}
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.Vec3;
@@ -101,24 +103,6 @@ public class EntityRendererMixin {
     }
     *///?} else {
 
-    /*@WrapOperation(
-            //? <26.1
-            method = "submitNameTag",
-            //? >= 26.1
-            //method = "submitNameDisplay(Lnet/minecraft/client/renderer/entity/state/EntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;I)V",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SubmitNodeCollector;submitNameTag(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/phys/Vec3;ILnet/minecraft/network/chat/Component;ZIDLnet/minecraft/client/renderer/state/CameraRenderState;)V")
-    )
-    private void pas$submitNameTag
-            (net.minecraft.client.renderer.SubmitNodeCollector instance, PoseStack poseStack, Vec3 vec3, int i1, Component displayName, boolean b, int i2, double v, net.minecraft.client.renderer.state.CameraRenderState cameraRenderState, Operation<Void> original) {
-        if (displayName.getString().contains("|") && PasConfig.getInstance().isHideParamsOnLabel() && PasConfig.getInstance().isEnableMod()) {
-            Component newName = getNameWithoutParams(NameInfo.parse(displayName));
-            original.call(instance, poseStack, vec3, i1, newName, b, i2, v, cameraRenderState);
-        } else {
-            original.call(instance, poseStack, vec3, i1, displayName, b, i2, v, cameraRenderState);
-        }
-    }
-
-    *///?}
-
+        //?}
     //?}
 }

@@ -75,7 +75,7 @@ modstitch {
 
     // Fabric Loom (Fabric)
     loom {
-        fabricLoaderVersion = "0.18.4"
+        fabricLoaderVersion = "0.19.3"
 
         // Configure loom like normal in this block.
         configureLoom {
@@ -151,6 +151,12 @@ stonecutter {
     }
 
     replacements {
+        string(current.parsed >= "26.2", "screen_render") {
+            replace("gui.getChat()", "gui.hud.getChat()")
+            replace(".setScreen(", ".gui.setScreen(")
+            replace(".gui.setOverlayMessage", ".gui.hud.setOverlayMessage")
+            replace(".setScreen(", ".gui.setScreen(")
+        }
         string(current.parsed >= "26.1", "screen_render") {
             replace("render(", "extractRenderState(")
             replace("drawCenteredString(", "centeredText(")

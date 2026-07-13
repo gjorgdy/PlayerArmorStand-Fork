@@ -8,6 +8,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import net.minecraft.client.Minecraft;
 
+//~ screen_render
 public class PasCommandsRegistrar<S> {
     public void register(CommandDispatcher<S> dispatcher) {
         PasCommands.COMMANDS_NAMES.forEach(s -> {

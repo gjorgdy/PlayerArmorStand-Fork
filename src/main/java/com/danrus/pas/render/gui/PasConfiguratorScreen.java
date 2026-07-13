@@ -15,6 +15,7 @@ import com.danrus.pas.utils.ModUtils;
 
 import com.danrus.pas.impl.data.skin.FileTextureSkinData;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -34,6 +35,7 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.jspecify.annotations.NonNull;
 
 public class PasConfiguratorScreen extends Screen {
 
@@ -86,6 +88,7 @@ public class PasConfiguratorScreen extends Screen {
 
     private final TabManager tabManager;
 
+    //~ screen_render
     public PasConfiguratorScreen(ArmorStandNamerAdapter parent) {
         super(Component.literal("Player Armor Stand Configurator"));
         this.parent = parent;
@@ -228,7 +231,9 @@ public class PasConfiguratorScreen extends Screen {
             setEntityName(info.compile());
         });
 
+        //? if <26.2 {
         capeNameBox.setValue(info.getFeature(CapeFeature.class).getId());
+        //?}
 
         ImageButton acceptCapeButton = new ImageButton(0, 0, 20, 20,
                 new WidgetSprites(
@@ -397,9 +402,9 @@ public class PasConfiguratorScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(final @NonNull GuiGraphicsExtractor g, int mouseX, int mouseY, final float partialTick) {
 
-        super.render(g, mouseX, mouseY, partialTick);
+        super.extractRenderState(g, mouseX, mouseY, partialTick);
 
         if (isAnimating) {
             currentRotation = lerp(currentRotation, targetRotation, ANIMATION_SPEED, partialTick);
@@ -427,45 +432,28 @@ public class PasConfiguratorScreen extends Screen {
         } else if (info.getFeature(CapeFeature.class).getProvider().equals("I")) {
             capeProviderButton.icon = MCCAPES_LOGO;
         }
-        g.drawCenteredString(Minecraft.getInstance().font, Component.translatable("pas.menu.name"), this.width / 2, 15, 0xFFFFFF);
+        g.centeredText(Minecraft.getInstance().font, Component.translatable("pas.menu.name"), this.width / 2, 15, 0xFFFFFF);
         entity.setHeadPose(new Rotations(currentHeadX, currentHeadY, currentHeadZ));
 
-        Quaternionf rotation = new Quaternionf().rotateX((float) Math.PI * 1.1F)
-                .rotateY((float) Math.toRadians(currentRotation + 30F));
-
-        //? if <= 1.21.5 {
-        InventoryScreen.renderEntityInInventory(
-                g, (int) (this.width / 2f - 68), (int) (this.height / 2f + 80), 70,
-                //? >= 1.21.1
-                new Vector3f(0, 0, 0),
-                rotation,
-                null,
-                entity
-        );
-        //?} else {
-        /*int left = this.width / 2 - 130; // Approx. left boundary
-        int top = this.height / 2 - 70;  // Approx. top boundary
+        int left = this.width / 2 - 120; // Approx. left boundary
+        int top = this.height / 2 - 90;  // Approx. top boundary
         int right = this.width / 2 - 18; // Approx. right boundary
-        int bottom = this.height / 2 + 120; // Approx. bottom boundary
-        float scale = 70.0F; // Adjust scale as needed
-        Vector3f translation = new Vector3f(0.1f, 0.75f, 0); // Use default translation
+        int bottom = this.height / 2 + 105; // Approx. bottom boundary
 
-        //? <=1.21.10
-        InventoryScreen.renderEntityInInventory(
-        //? >=1.21.11
-        //renderEntityInInventory12111(
-                g,
-                left,
-                top,
-                right,
-                bottom,
-                scale,
-                translation,
-                rotation,
-                null,
-                entity
+        entity.setId(-1);
+
+        InventoryScreen.extractEntityInInventoryFollowsMouse(
+            g,
+            left,
+            top,
+            right,
+            bottom,
+            80,
+            0.05f,
+            mouseX,
+            mouseY,
+            entity
         );
-        *///?}
     }
 
     private float lerp(float start, float end, float speed, float partialTick) {
@@ -531,17 +519,4 @@ public class PasConfiguratorScreen extends Screen {
         IDLE,
         CAPE,
     }
-
-    //? >=1.21.10 {
-    /*public static void renderEntityInInventory12111(GuiGraphics guiGraphics, int x1, int y1, int x2, int y2, float scale, Vector3f translation, Quaternionf rotation, @Nullable Quaternionf overrideCameraAngle, LivingEntity entity) {
-        EntityRenderDispatcher entityRenderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
-        EntityRenderer<? super LivingEntity, ?> entityRenderer = entityRenderDispatcher.getRenderer(entity);
-        net.minecraft.client.renderer.entity.state.EntityRenderState entityRenderState = entityRenderer.createRenderState(entity, 1.0F);
-        entityRenderState.lightCoords = 15728880;
-        //        entityRenderState.hitboxesRenderState = null;
-        entityRenderState.shadowPieces.clear();
-        entityRenderState.outlineColor = 0;
-        guiGraphics.submitEntityRenderState(entityRenderState, scale, translation, rotation, overrideCameraAngle, x1, y1, x2, y2);
-    }
-    *///?}
 }

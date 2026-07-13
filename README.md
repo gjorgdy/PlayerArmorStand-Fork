@@ -15,6 +15,3 @@
 <div align="center"><h1>Rename Armor Stand to add the desired player's skin to it:</h1></div>
 
 <div align="center"><img alt="pas_demo_1" src="https://i.postimg.cc/rpTWR3pY/PAS-CONFIGURATOR-ezgif-com-video-to-gif-converter.gif?raw=true" width=100%></div>
-
-
-</div>

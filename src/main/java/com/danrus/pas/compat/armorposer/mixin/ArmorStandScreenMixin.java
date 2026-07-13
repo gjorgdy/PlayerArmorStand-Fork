@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ArmorStandScreenMixin {
 
     @Unique
+    //~ screen_render
     private Button configuratorButton = Button.builder(Component.translatable("pas.buttons.configurator"),
                     button -> Minecraft.getInstance().setScreen(new PasConfiguratorScreen(new ArmorPoserNamer((ArmorStandScreen) (Object) this))))
             .tooltip(Tooltip.create(Component.translatable("pas.buttons.configurator.tooltip")))

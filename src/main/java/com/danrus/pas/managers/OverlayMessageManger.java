@@ -30,6 +30,7 @@ public class OverlayMessageManger {
 //        showMessage("pas.overlay_not_found", name, ChatFormatting.RED);
     }
 
+    //~ screen_render
     private void showMessage(String key, String name, ChatFormatting color) {
         if (name.isEmpty()) {
             return;
